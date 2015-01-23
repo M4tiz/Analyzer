@@ -21,6 +21,7 @@
         <apache.lang3.version>3.3.2</apache.lang3.version>
         <apache.colletions4.version>4.0</apache.colletions4.version>
         <javax.persistence.version>2.1.0</javax.persistence.version>
+        <thymeleaf.spring4.version>2.1.4.RELEASE</thymeleaf.spring4.version>
 
     </properties>
 
@@ -80,6 +81,14 @@
             <artifactId>spring-security-config</artifactId>
             <version>${spring.security.version}</version>
         </dependency>
+
+        <!-- Thymeleaf -->
+        <dependency>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf-spring4</artifactId>
+            <version>${thymeleaf.spring4.version}</version>
+        </dependency>
+
 
         <!-- Persistence -->
         <dependency>
