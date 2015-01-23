@@ -18,7 +18,9 @@
 
         <spring.version>4.1.4.RELEASE</spring.version>
         <spring.security.version>3.2.5.RELEASE</spring.security.version>
-        <apache.lang.version>3.3.2</apache.lang.version>
+        <apache.lang3.version>3.3.2</apache.lang3.version>
+        <apache.colletions4.version>4.0</apache.colletions4.version>
+        <javax.persistence.version>2.1.0</javax.persistence.version>
 
     </properties>
 
@@ -78,6 +80,27 @@
             <artifactId>spring-security-config</artifactId>
             <version>${spring.security.version}</version>
         </dependency>
+
+        <!-- Persistence -->
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>javax.persistence</artifactId>
+            <version>${javax.persistence.version}</version>
+        </dependency>
+
+        <!-- Additional shit -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${apache.lang3.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>${apache.colletions4.version}</version>
+        </dependency>
+
 
     </dependencies>
 </project>
