@@ -9,14 +9,11 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name = "DIALOG_EXPRESSION")
-public class DialogExpression {
+@Table(name = "EXPRESSION")
+public class Expression {
 
     @Column(name = "CONTENT")
     private String content;
-
-    @Column(name = "SEQUENCE")
-    private Integer sequence;
 
     public String getContent() {
         return content;
@@ -24,13 +21,5 @@ public class DialogExpression {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public Integer getSequence() {
-        return sequence;
-    }
-
-    public void setSequence(Integer sequence) {
-        this.sequence = sequence;
     }
 }
