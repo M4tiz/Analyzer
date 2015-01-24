@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "DIALOG_EXPRESSION")
-public class DialogExpression {
+public class DialogExpression extends IdentityObject {
 
     @Column(name = "CONTENT")
     private String content;

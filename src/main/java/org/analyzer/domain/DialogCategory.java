@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.List;
 
 /**
  * @author mateusz.rutski@sagiton.pl
@@ -18,7 +19,7 @@ public class DialogCategory extends IdentityObject {
 
     @OneToMany(mappedBy = "dialogCategory")
     @Column(name = "DIALOG_EXPRESSION")
-    private DialogExpression dialogExpression;
+    private List<DialogExpression> dialogExpressions;
 
     public String getName() {
         return name;
@@ -28,11 +29,11 @@ public class DialogCategory extends IdentityObject {
         this.name = name;
     }
 
-    public DialogExpression getDialogExpression() {
-        return dialogExpression;
+    public List<DialogExpression> getDialogExpressions() {
+        return dialogExpressions;
     }
 
-    public void setDialogExpression(DialogExpression dialogExpression) {
-        this.dialogExpression = dialogExpression;
+    public void setDialogExpressions(List<DialogExpression> dialogExpressions) {
+        this.dialogExpressions = dialogExpressions;
     }
 }

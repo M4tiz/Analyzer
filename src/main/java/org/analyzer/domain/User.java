@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "USER")
-public class User {
+public class User extends IdentityObject {
 
     @Column(name = "USERNAME")
     private String username;

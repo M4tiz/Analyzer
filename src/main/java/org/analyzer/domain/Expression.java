@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "EXPRESSION")
-public class Expression {
+public class Expression extends IdentityObject {
 
     @Column(name = "CONTENT")
     private String content;

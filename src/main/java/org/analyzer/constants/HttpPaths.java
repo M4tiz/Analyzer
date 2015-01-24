@@ -6,6 +6,7 @@ package org.analyzer.constants;
 public class HttpPaths {
 
     public static final String LOGIN = "/login";
+    public static final String LOGIN_REQUEST = "/login/request";
     public static final String LOGIN_FAILED = "/login?error";
     public static final String HTTP_ERROR = "/error";
     public static final java.lang.String DASHBOARD = "/dashboard";

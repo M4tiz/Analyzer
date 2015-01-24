@@ -82,6 +82,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .regexMatchers(HTTP_ERROR).permitAll()
                 .regexMatchers(DASHBOARD).permitAll()
+                .regexMatchers(LOGIN_REQUEST).permitAll()
                 .regexMatchers("/*").authenticated();
     }
 }

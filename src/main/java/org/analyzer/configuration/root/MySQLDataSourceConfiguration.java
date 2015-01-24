@@ -54,7 +54,7 @@ public class MySQLDataSourceConfiguration {
         vendorAdapter.setGenerateDdl(true);
         vendorAdapter.setShowSql(true);
         vendorAdapter.setDatabase(Database.MYSQL);
-        vendorAdapter.setDatabasePlatform(org.hibernate.dialect.MySQLDialect.getDialect().toString());
+        vendorAdapter.setDatabasePlatform("org.hibernate.dialect.MySQLDialect");
 
         return vendorAdapter;
     }

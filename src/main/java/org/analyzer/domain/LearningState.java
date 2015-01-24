@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "LEARNING_STATE")
-public class LearningState {
+public class LearningState extends IdentityObject {
 
     @Column(name = "LEARNING_STATUS")
     @Enumerated(EnumType.STRING)
