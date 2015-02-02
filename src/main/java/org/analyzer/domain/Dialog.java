@@ -16,15 +16,15 @@ public class Dialog extends IdentityObject {
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
-    @Column
-    @OneToOne(mappedBy = "dialog")
+    @JoinColumn(name = "LEARNING_STATE")
+    @OneToOne(cascade = CascadeType.ALL)
     private LearningState learningState;
 
     @OneToMany(mappedBy = "dialog")
     private List<Expression> expressions;
 
     @ManyToOne
-    @Column(name = "DIALOG_CATEGORY")
+    @JoinColumn(name = "DIALOG_CATEGORY")
     private DialogCategory dialogCategory;
 
     public Date getDate() {

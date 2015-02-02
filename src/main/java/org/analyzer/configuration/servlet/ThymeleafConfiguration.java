@@ -9,6 +9,7 @@ import org.thymeleaf.dialect.IDialect;
 import org.thymeleaf.extras.springsecurity3.dialect.SpringSecurityDialect;
 import org.thymeleaf.messageresolver.IMessageResolver;
 import org.thymeleaf.spring4.SpringTemplateEngine;
+import org.thymeleaf.spring4.dialect.SpringStandardDialect;
 import org.thymeleaf.spring4.messageresolver.SpringMessageResolver;
 import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
@@ -36,11 +37,11 @@ public class ThymeleafConfiguration extends ApplicationObjectSupport {
     }
 
     @Bean
-    public SpringTemplateEngine springTemplateEngine(Set<? extends ITemplateResolver> templateResolvers, IMessageResolver messageResolver, IDialect dialect) {
+    public SpringTemplateEngine springTemplateEngine(Set<? extends ITemplateResolver> templateResolvers, IMessageResolver messageResolver, Set<IDialect> dialects) {
 
         SpringTemplateEngine springTemplateEngine = new SpringTemplateEngine();
 
-        springTemplateEngine.setDialect(dialect);
+        springTemplateEngine.setAdditionalDialects(dialects);
         springTemplateEngine.setMessageResolver(messageResolver);
         springTemplateEngine.setTemplateResolvers(templateResolvers);
 
@@ -62,10 +63,15 @@ public class ThymeleafConfiguration extends ApplicationObjectSupport {
     }
 
     @Bean
+    public IDialect thymeleafSpringDialect() {
+        return new SpringStandardDialect();
+    }
+
+    @Bean
     public ITemplateResolver servletTemplateResolver() {
         ServletContextTemplateResolver resolver = new ServletContextTemplateResolver();
 
-        resolver.setPrefix("/WEB-INF/views");
+        resolver.setPrefix("/WEB-INF/views/");
         resolver.setOrder(10);
         resolver.setSuffix(".html");
         resolver.setTemplateMode("HTML5");

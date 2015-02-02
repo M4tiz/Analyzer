@@ -1,6 +1,9 @@
 package org.analyzer.domain;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 
 /**
  * @author mateusz.rutski@sagiton.pl
@@ -10,8 +13,7 @@ import javax.persistence.*;
 public abstract class IdentityObject {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ID_SEQUENCE")
-    @SequenceGenerator(name = "ID_SEQUENCE", initialValue = 1, allocationSize = 1)
+    @GeneratedValue
     @Column(name = "ID")
     protected Long id;
 

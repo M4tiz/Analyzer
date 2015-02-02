@@ -15,7 +15,6 @@ public class LearningState extends IdentityObject {
     private LearningStatus learningStatus;
 
     @OneToOne(mappedBy = "learningState")
-    @Column(name = "DIALOG")
     private Dialog dialog;
 
 
