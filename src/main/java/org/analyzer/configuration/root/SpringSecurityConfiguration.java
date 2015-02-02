@@ -45,7 +45,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web
                 .ignoring()
-                .regexMatchers("/static/*");
+                .antMatchers("/static/**");
     }
 
     @Override

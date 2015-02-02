@@ -1,0 +1,12 @@
+h1, h2, h3, h4, h5 {
+    font-family: 'Lato', sans-serif;
+}
+
+body > div.container {
+    margin-top: 80px;
+    margin-bottom: 50px;
+}
+
+body > header > .navbar {
+    height: 70px;
+}
