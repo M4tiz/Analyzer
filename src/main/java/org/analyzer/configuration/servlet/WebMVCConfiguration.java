@@ -61,7 +61,7 @@ public class WebMVCConfiguration extends WebMvcConfigurerAdapter {
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
 
-        messageSource.setBasename("classpath*:/i18n/messages");
+        messageSource.setBasename("classpath:/i18n/messages");
         messageSource.setCacheSeconds(0);
         messageSource.setDefaultEncoding("UTF-8");
         messageSource.setFallbackToSystemLocale(false);

@@ -3,10 +3,69 @@ h1, h2, h3, h4, h5 {
 }
 
 body > div.container {
+    min-height: 400px;
     margin-top: 80px;
     margin-bottom: 50px;
 }
 
 body > header > .navbar {
     height: 70px;
+    background: rgba(83,118,217,1);
+    background: -moz-linear-gradient(top, rgba(83,118,217,1) 0%, rgba(0,30,66,1) 100%);
+    background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(83,118,217,1)), color-stop(100%, rgba(0,30,66,1)));
+    background: -webkit-linear-gradient(top, rgba(83,118,217,1) 0%, rgba(0,30,66,1) 100%);
+    background: -o-linear-gradient(top, rgba(83,118,217,1) 0%, rgba(0,30,66,1) 100%);
+    background: -ms-linear-gradient(top, rgba(83,118,217,1) 0%, rgba(0,30,66,1) 100%);
+    background: linear-gradient(to bottom, rgba(83,118,217,1) 0%, rgba(0,30,66,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5376d9', endColorstr='#001e42', GradientType=0 );
+    box-shadow: 2px 2px 5px #777;
+    color: #ffffff;
+    border-bottom: #144f7b;
+    z-index: 99;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 75px;
+    border-top: 1px solid #f1f1f1;
+    border-bottom: 1px solid #d7d7d7;
+    background: -webkit-linear-gradient(180deg, #ffffff 0%, #e5e5e5 100%);
+    background: -moz-linear-gradient(180deg, #ffffff 0%, #e5e5e5 100%);
+    background: -ms-linear-gradient(180deg, #ffffff 0%, #e5e5e5 100%);
+    background: -o-linear-gradient(180deg, #ffffff 0%, #e5e5e5 100%);
+    background: linear-gradient(180deg, #ffffff 0%, #e5e5e5 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffe5e5e5', endColorstr='#ffffffff', GradientType=1);
+    -ms-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffe5e5e5',endColorstr='#ffffffff',GradientType=1);
+}
+.footer .row .left {
+    margin-top: 32px;
+    padding-left: 20px;
+}
+.footer .row .center {
+    margin-top: 14px;
+}
+.footer .row .right {
+    margin-top: 6px;
+    padding-right: 20px;
+}
+.footer .row .right img {
+    width: 128px;
+}
+.footer .row small {
+    font-size: 9px;
+    color: #404245;
+}
+.footer div > div > div > div.col-xs-7.center > ul > li > a {
+    font-size: 9px;
+    color: #404245;
+    vertical-align: middle;
+}
+.footer div > div > div > div.col-xs-7.center > ul > li > a:hover {
+    background-color: transparent;
+}
+.footer div > div > div > div.col-xs-7.center > ul > li > a .cmt-icon {
+    font-size: 12px;
+    vertical-align: middle;
 }
