@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
  */
 
 @Configuration
-@ComponentScan(basePackages = {"org.analyzer.service"})
+@ComponentScan(basePackages = {"org.analyzer.service", "org.analyzer.persistence"})
 public class ServiceConfiguration {
 
 }

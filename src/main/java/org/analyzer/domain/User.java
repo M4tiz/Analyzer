@@ -1,5 +1,7 @@
 package org.analyzer.domain;
 
+import com.mysema.query.annotations.QueryProjection;
+
 import javax.persistence.*;
 import java.util.List;
 

@@ -6,4 +6,6 @@ package org.analyzer.service.user;
 public interface UserService {
 
     public UserVO findByUsername(String username);
+
+    void addUser(UserVO userVO);
 }

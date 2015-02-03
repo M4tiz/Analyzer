@@ -24,4 +24,12 @@ public class UserVO extends ValueObject<User> {
     public UserRole getRole() {
         return domainObject.getRole();
     }
+
+    public static UserVO from(String username, String password, String role) {
+        User user = new User();
+        user.setPassword(password);
+        user.setUsername(username);
+        user.setRole(UserRole.valueOf(role));
+        return new UserVO(user);
+    }
 }

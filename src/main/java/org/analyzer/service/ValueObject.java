@@ -11,7 +11,7 @@ public abstract class ValueObject<T> {
         this.domainObject = domainObject;
     }
 
-    /**package**/ T getDomainObject() {
+    public T getDomainObject() {
         return domainObject;
     }
 }
