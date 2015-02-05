@@ -12,7 +12,7 @@ public class LearningState extends IdentityObject {
 
     @Column(name = "LEARNING_STATUS")
     @Enumerated(EnumType.STRING)
-    private LearningStatus learningStatus;
+    private LearningStatus learningStatus = LearningStatus.FAILED;
 
     @OneToOne(mappedBy = "learningState")
     private Dialog dialog;

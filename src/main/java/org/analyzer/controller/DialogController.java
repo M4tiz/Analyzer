@@ -37,8 +37,8 @@ public class DialogController {
         botEngine.initializeBot(category);
         DialogVO newDialog = dialogService.createNewDialog(category);
 
-        model.addAttribute(category);
-        model.addAttribute(newDialog.getId());
+        model.addAttribute("category", category);
+        model.addAttribute("dialogId", newDialog.getId());
 
         return DIALOG_VIEW;
     }

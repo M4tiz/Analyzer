@@ -21,5 +21,5 @@ public class HttpPaths {
     public static final String DIALOG_INPUT = "/dialog/input";
 
     /** Dialog Category **/
-    public static final String CATEGORY_SELECT = "/category/select_category";
+    public static final String CATEGORY_SELECT = "/category/category_select";
 }

@@ -8,9 +8,39 @@
 <header th:include="fragments/page-header" />
 
 <div class="container">
-    <div class="row">
-        <div class="col-md-12">
+    <div class="dialog-header row">
+        <div class="col-xs-12">
+            <h1>Dialog No. <i th:remove="tag" th:text="${dialogId}">123</i></h1>
+            <h2>Category: <i th:remove="tag" th:text="${category}">Category1</i></h2>
 
+            <div class="pull-right">
+                <button class="btn btn-sm btn-danger" th:value="#{dialog.stop}">Stop dialog</button>
+            </div>
+        </div>
+        <div class="col-xs-12 dialog-progress">
+
+        </div>
+    </div>
+    <div class="dialog-content row">
+        <div class="text-center col-xs-12 bot-icon">
+            <img src="http://placehold.it/150x150" />
+        </div>
+
+        <div class="dialog-expressions-history col-xs-12">
+
+        </div>
+    </div>
+    <div class="dialog-user row">
+        <div class="pull-left col-xs-12">
+            <button class="btn btn-default btn-square fa">
+                <span class="fa-microphone"></span>
+            </button>
+        </div>
+        <div class="input-group">
+            <input id="expressionText" type="text" class="form-control" placeholder="Say something!" th:placeholder="#{dialog.input.placeholder}" />
+            <div class="input-group-addon">
+                <button class="btn btn-primary" th:value="#{dialog.input.submit}">Submit</button>
+            </div>
         </div>
     </div>
 </div>
@@ -20,5 +50,29 @@
 </body>
 
 <div th:include="fragments/html-foot" />
+
+<script type="text/javascript" th:inline="javascript">
+    var dialogInputUrl = /*[[@{/dialog/input}*/ 'noaction';
+    var you = /*[[#{dialog.user.label}]]*/ 'U';
+    var bot = /*[[#{dialog.bot.label}]]*/ 'comp';
+
+    $('#submitExpression').click(function() {
+
+        var expression = $('#expressionText').val();
+        $('.dialog-expressions-history').append(you + " " + expression);
+
+        $.ajax({
+            type: 'POST',
+            url: dialogInputUrl,
+            data: {
+                expression: expression
+            },
+            success: function(response) {
+                $('.dialog-expressions-history').append(bot + " " + response);
+            }
+        });
+
+    })
+</script>
 
 </html>
