@@ -1,6 +1,7 @@
 # Analyzer
 
-Installation:
+## Installation:
+
 1. Pull this shit
 
 2. Perform mvn clean install
