@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.util.List;
 
 /**
  * @author mateusz.rutski@sagiton.pl
@@ -17,7 +18,7 @@ import javax.transaction.Transactional;
 @Transactional
 public class UserDAOImpl implements UserDAO {
 
-    private static final QUser USER = QUser.user;
+    private final QUser USER = QUser.user;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -33,7 +34,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public Iterable<User> findAll() {
+    public List<User> findAll() {
         return new JPAQuery(entityManager).from(USER).list(USER);
     }
 

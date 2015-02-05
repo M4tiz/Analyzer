@@ -1,5 +1,5 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.springframework.org/security/tags">
 
 <head th:include="fragments/html-head" />
 
@@ -8,7 +8,30 @@
 <header th:include="fragments/page-header" />
 
 <div class="container">
-    Dashboard baby!
+    <h1 class="text-center text-bold"><strong>Welcome to Analyzer!</strong></h1>
+    <div style="padding-bottom: 100px;"></div>
+
+    <div class="text-center">
+        <div class="col-sm-12 col-md-5" sec:authorize="hasRole('STUDENT')">
+            <div id="start" class="cool_btn1 green">
+                <h1 class="top">START DIALOG</h1>
+                <h2>b</h2>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-2">
+            <h1 style="padding-top: 70px; padding-bottom: 70px;"><strong>OR</strong></h1>
+        </div>
+        <div class="col-sm-12 col-md-5">
+            <div id="browse" class="cool_btn1 teal">
+                <h1 class="small top">BROWSE <br/>DIALOG CATEGORIES</h1>
+                <h2>4</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12" sec:authorize="hasRole('ADMINISTRATOR')">
+        <h1>Admin Panel</h1>
+    </div>
 </div>
 
 <footer th:include="fragments/page-footer" />
@@ -16,5 +39,18 @@
 </body>
 
 <div th:include="fragments/html-foot" />
+
+<script type="text/javascript" th:inline="javascript">
+    var dialogUrl = /*[[@{/category/category_select}]]*/ 'noaction';
+    var browseUrl = /*[[@{/category/browse}]]*/ 'noaction';
+
+    $('#start').click(function() {
+        window.location.href = dialogUrl;
+    });
+
+    $('#browse').click(function() {
+        window.location.href = browseUrl;
+    });
+</script>
 
 </html>

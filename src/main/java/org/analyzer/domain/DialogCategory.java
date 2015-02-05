@@ -18,7 +18,7 @@ public class DialogCategory extends IdentityObject {
     private String name;
 
     @OneToMany(mappedBy = "dialogCategory")
-    @Column(name = "DIALOG_EXPRESSION")
+    @Column(name = "DIALOG_EXPRESSION", unique = true, nullable = false)
     private List<DialogExpression> dialogExpressions;
 
     public String getName() {

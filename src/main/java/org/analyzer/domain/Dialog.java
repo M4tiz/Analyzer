@@ -24,7 +24,7 @@ public class Dialog extends IdentityObject {
     private List<Expression> expressions;
 
     @ManyToOne
-    @JoinColumn(name = "DIALOG_CATEGORY")
+    @JoinColumn(name = "DIALOG_CATEGORY", nullable = false)
     private DialogCategory dialogCategory;
 
     public Date getDate() {

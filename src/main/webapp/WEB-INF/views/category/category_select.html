@@ -1,0 +1,40 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/html-head" />
+
+<body>
+
+<header th:include="fragments/page-header" />
+
+<div class="container">
+    <div class="col-xs-12 col-md-2">
+        <h1 th:text="#{category.list.select}">Select dialog category</h1>
+    </div>
+    <div class="col-xs-12 col-md-10">
+        <select id="categoryList" title="">
+            <option value="" th:text="#{common.select}">Please select</option>
+            <option th:each="${category : categories}" th:value="${category.value}" th:text="${category.name}">
+                CATEGORY
+            </option>
+        </select>
+    </div>
+    <div class="col-md-12">
+        <button id="start" class="btn btn-lg btn-success" th:text="#{dialog.start}">Start dialog!</button>
+    </div>
+</div>
+
+<footer th:include="fragments/page-footer" />
+
+</body>
+
+<div th:include="fragments/html-foot" />
+
+<script th:inline="javascript" type="text/javascript">
+    var dialogUrl = /*[[@{/dialog/__categoryId__/start}]]*/ 'noaction';
+    $('#start').click(function() {
+        window.location.href = dialogUrl.replace('__categoryId__', $('#categoryList').val());
+    });
+</script>
+
+</html>
