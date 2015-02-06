@@ -7,7 +7,7 @@
 
 <header th:include="fragments/page-header" />
 
-<div class="container">
+<div class="container dialog">
     <div class="dialog-header row">
         <div class="col-xs-12">
             <div class="pull-right">
@@ -51,14 +51,24 @@
 <div th:include="fragments/html-foot" />
 
 <script type="text/javascript" th:inline="javascript">
+    //<![CDATA[
     var dialogInputUrl = /*[[@{/dialog/input}]]*/ 'noaction';
     var you = /*[[#{dialog.user.label}]]*/ 'U';
     var bot = /*[[#{dialog.bot.label}]]*/ 'comp';
 
+    $("#expressionText").keyup(function(event){
+        if(event.keyCode == 13){
+            $("#submitExpression").click();
+        }
+    });
+
     $('#submitExpression').click(function() {
 
-        var expression = $('#expressionText').val();
-        $('.dialog-expressions-history').append(you + " " + expression + "\n");
+        var $expressionText = $('#expressionText');
+        var expression = $expressionText.val();
+        $expressionText.val('');
+        $('.dialog-expressions-history').append(you + " " + expression + "</br>");
+        scrollTextArea();
 
         $.ajax({
             type: 'POST',
@@ -67,11 +77,18 @@
                 expression: expression
             },
             success: function(response) {
-                $('.dialog-expressions-history').append(bot + " " + response + "\n");
+                $('.dialog-expressions-history').append(bot + " " + response + "</br>");
+                scrollTextArea();
             }
         });
 
-    })
+    });
+
+    var scrollTextArea = function() {
+        var textarea = $('.dialog-expressions-history');
+        textarea.scrollTop(textarea[0].scrollHeight);
+    };
+    //]]>
 </script>
 
 </html>
