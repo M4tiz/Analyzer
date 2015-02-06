@@ -1,6 +1,7 @@
 package org.analyzer.domain;
 
 import javax.persistence.*;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class Dialog extends IdentityObject {
     }
 
     public List<Expression> getExpressions() {
-        return expressions;
+        return Collections.unmodifiableList(expressions);
     }
 
     public void setExpressions(List<Expression> expressions) {

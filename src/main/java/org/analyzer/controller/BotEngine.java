@@ -4,6 +4,7 @@ package org.analyzer.controller;
  * @author mateusz.rutski@sagiton.pl
  */
 
+import org.analyzer.domain.DialogExpression;
 import org.analyzer.service.category.DialogCategoryService;
 import org.analyzer.service.category.DialogCategoryVO;
 import org.analyzer.service.dialog.DialogExpressionVO;
@@ -28,7 +29,7 @@ public class BotEngine {
 
         //TODO Expression analysis
 
-        return null;
+        return new DialogExpressionVO(new DialogExpression());
     }
 
     public void finish() {

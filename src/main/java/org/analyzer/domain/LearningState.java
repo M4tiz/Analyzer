@@ -34,4 +34,8 @@ public class LearningState extends IdentityObject {
     public void setLearningStatus(LearningStatus learningStatus) {
         this.learningStatus = learningStatus;
     }
+
+    public void setFinished() {
+        learningStatus = LearningStatus.FINISHED;
+    }
 }

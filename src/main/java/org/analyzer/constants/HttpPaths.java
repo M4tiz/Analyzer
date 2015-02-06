@@ -19,6 +19,8 @@ public class HttpPaths {
     /** Dialog **/
     public static final String DIALOG_START = "/dialog/{categoryId}/start";
     public static final String DIALOG_INPUT = "/dialog/input";
+    public static final String DIALOG_FINISH = "/dialog/finish";
+    public static final String DIALOG_CANCEL = "/dialog/cancel";
 
     /** Dialog Category **/
     public static final String CATEGORY_SELECT = "/category/category_select";

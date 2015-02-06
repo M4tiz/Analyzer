@@ -15,4 +15,8 @@ public class DialogVO extends ValueObject<Dialog> {
     public Long getId() {
         return domainObject.getId();
     }
+
+    public void finishDialog() {
+        domainObject.getLearningState().setFinished();
+    }
 }

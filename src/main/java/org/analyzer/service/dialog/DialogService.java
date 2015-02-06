@@ -7,4 +7,6 @@ import org.analyzer.service.category.DialogCategoryVO;
  */
 public interface DialogService {
     DialogVO createNewDialog(DialogCategoryVO dialogCategory);
+
+    DialogVO save(DialogVO dialog);
 }

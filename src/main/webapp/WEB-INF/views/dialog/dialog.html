@@ -10,12 +10,11 @@
 <div class="container">
     <div class="dialog-header row">
         <div class="col-xs-12">
-            <h1>Dialog No. <i th:remove="tag" th:text="${dialogId}">123</i></h1>
-            <h2>Category: <i th:remove="tag" th:text="${category}">Category1</i></h2>
-
             <div class="pull-right">
                 <button class="btn btn-sm btn-danger" th:value="#{dialog.stop}">Stop dialog</button>
             </div>
+            <h1>Dialog No. <i th:remove="tag" th:text="${newDialog.id}">123</i></h1>
+            <h2>Category: <i th:remove="tag" th:text="${category}">Category1</i></h2>
         </div>
         <div class="col-xs-12 dialog-progress">
 
@@ -39,7 +38,7 @@
         <div class="input-group">
             <input id="expressionText" type="text" class="form-control" placeholder="Say something!" th:placeholder="#{dialog.input.placeholder}" />
             <div class="input-group-addon">
-                <button class="btn btn-primary" th:value="#{dialog.input.submit}">Submit</button>
+                <button id="submitExpression" class="btn btn-primary" th:value="#{dialog.input.submit}">Submit</button>
             </div>
         </div>
     </div>
@@ -52,14 +51,14 @@
 <div th:include="fragments/html-foot" />
 
 <script type="text/javascript" th:inline="javascript">
-    var dialogInputUrl = /*[[@{/dialog/input}*/ 'noaction';
+    var dialogInputUrl = /*[[@{/dialog/input}]]*/ 'noaction';
     var you = /*[[#{dialog.user.label}]]*/ 'U';
     var bot = /*[[#{dialog.bot.label}]]*/ 'comp';
 
     $('#submitExpression').click(function() {
 
         var expression = $('#expressionText').val();
-        $('.dialog-expressions-history').append(you + " " + expression);
+        $('.dialog-expressions-history').append(you + " " + expression + "\n");
 
         $.ajax({
             type: 'POST',
@@ -68,7 +67,7 @@
                 expression: expression
             },
             success: function(response) {
-                $('.dialog-expressions-history').append(bot + " " + response);
+                $('.dialog-expressions-history').append(bot + " " + response + "\n");
             }
         });
 

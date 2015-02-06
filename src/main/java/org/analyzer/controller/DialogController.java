@@ -1,5 +1,7 @@
 package org.analyzer.controller;
 
+import org.analyzer.constants.HtmlViews;
+import org.analyzer.constants.HttpPaths;
 import org.analyzer.service.category.DialogCategoryService;
 import org.analyzer.service.category.DialogCategoryVO;
 import org.analyzer.service.dialog.DialogService;
@@ -9,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 
+import static org.analyzer.constants.HtmlViews.DASHBOARD;
 import static org.analyzer.constants.HtmlViews.DIALOG_VIEW;
 import static org.analyzer.constants.HttpPaths.DIALOG_INPUT;
 import static org.analyzer.constants.HttpPaths.DIALOG_START;
@@ -19,6 +23,7 @@ import static org.analyzer.constants.HttpPaths.DIALOG_START;
  */
 
 @Controller
+@SessionAttributes(value = "newDialog")
 public class DialogController {
 
     @Autowired
@@ -30,15 +35,19 @@ public class DialogController {
     @Autowired
     private DialogService dialogService;
 
+    @ModelAttribute("newDialog")
+    public DialogVO newDialog(@PathVariable Long categoryId) {
+        DialogCategoryVO category = dialogCategoryService.findById(categoryId);
+        return dialogService.createNewDialog(category);
+    }
+
     @RequestMapping(value = DIALOG_START, method = RequestMethod.GET)
     public String startDialog(@PathVariable Long categoryId, Model model) {
 
         DialogCategoryVO category = dialogCategoryService.findById(categoryId);
         botEngine.initializeBot(category);
-        DialogVO newDialog = dialogService.createNewDialog(category);
 
-        model.addAttribute("category", category);
-        model.addAttribute("dialogId", newDialog.getId());
+        model.addAttribute("category", category.getName());
 
         return DIALOG_VIEW;
     }
@@ -52,5 +61,20 @@ public class DialogController {
         }
 
         return botEngine.getResponse(expression).getContent();
+    }
+
+    @RequestMapping(value = HttpPaths.DIALOG_CANCEL, method = RequestMethod.GET)
+    public String cancelDialog() {
+        return HtmlViews.DASHBOARD;
+    }
+
+    @RequestMapping(value = HttpPaths.DIALOG_FINISH, method = RequestMethod.GET)
+    public String finishDialog(@ModelAttribute("newDialog") DialogVO dialog, SessionStatus sessionStatus) {
+
+        dialog.finishDialog();
+        dialogService.save(dialog);
+        sessionStatus.setComplete();
+
+        return DASHBOARD;
     }
 }
