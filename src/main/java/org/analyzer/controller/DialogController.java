@@ -6,6 +6,7 @@ import org.analyzer.service.category.DialogCategoryService;
 import org.analyzer.service.category.DialogCategoryVO;
 import org.analyzer.service.dialog.DialogService;
 import org.analyzer.service.dialog.DialogVO;
+import org.analyzer.service.dialog.ExpressionVO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -54,13 +55,15 @@ public class DialogController {
 
     @RequestMapping(value = DIALOG_INPUT, method = RequestMethod.POST)
     @ResponseBody
-    public String queryExpression(@RequestParam String expression) {
+    public String queryExpression(@ModelAttribute("newDialog") DialogVO dialog, @RequestParam String expression) {
 
         if (StringUtils.isBlank(expression)) {
             throw new IllegalStateException("Expression cannot be null");
         }
 
-        return botEngine.getResponse(expression).getContent();
+        ExpressionVO response = botEngine.getResponse(expression);
+        dialog.addExpression(response);
+        return response.getContent();
     }
 
     @RequestMapping(value = HttpPaths.DIALOG_CANCEL, method = RequestMethod.GET)

@@ -19,4 +19,8 @@ public class DialogVO extends ValueObject<Dialog> {
     public void finishDialog() {
         domainObject.getLearningState().setFinished();
     }
+
+    public void addExpression(ExpressionVO expressionVO) {
+        domainObject.addExpression(expressionVO.getDomainObject());
+    }
 }

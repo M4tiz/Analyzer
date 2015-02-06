@@ -3,6 +3,7 @@ package org.analyzer.domain;
 import javax.persistence.*;
 import java.util.Collections;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -22,7 +23,7 @@ public class Dialog extends IdentityObject {
     private LearningState learningState;
 
     @OneToMany(mappedBy = "dialog")
-    private List<Expression> expressions;
+    private List<Expression> expressions = new LinkedList<>();
 
     @ManyToOne
     @JoinColumn(name = "DIALOG_CATEGORY", nullable = false)
@@ -58,5 +59,9 @@ public class Dialog extends IdentityObject {
 
     public void setDialogCategory(DialogCategory dialogCategory) {
         this.dialogCategory = dialogCategory;
+    }
+
+    public void addExpression(Expression expression) {
+        expressions.add(expression);
     }
 }

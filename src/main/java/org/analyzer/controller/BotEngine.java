@@ -4,10 +4,10 @@ package org.analyzer.controller;
  * @author mateusz.rutski@sagiton.pl
  */
 
-import org.analyzer.domain.DialogExpression;
+import org.analyzer.domain.Expression;
 import org.analyzer.service.category.DialogCategoryService;
 import org.analyzer.service.category.DialogCategoryVO;
-import org.analyzer.service.dialog.DialogExpressionVO;
+import org.analyzer.service.dialog.ExpressionVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,12 +24,12 @@ public class BotEngine {
         currentDialogCategory = dialogCategory;
     }
 
-    public DialogExpressionVO getResponse(String expression) {
+    public ExpressionVO getResponse(String expression) {
         checkInitialization();
 
         //TODO Expression analysis
 
-        return new DialogExpressionVO(new DialogExpression());
+        return new ExpressionVO(new Expression());
     }
 
     public void finish() {
