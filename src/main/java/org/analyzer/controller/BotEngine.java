@@ -29,7 +29,9 @@ public class BotEngine {
 
         //TODO Expression analysis
 
-        return new ExpressionVO(new Expression());
+        Expression domainObject = new Expression();
+        domainObject.setContent("Hello world");
+        return new ExpressionVO(domainObject);
     }
 
     public void finish() {

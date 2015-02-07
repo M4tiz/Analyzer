@@ -58,6 +58,7 @@
         var dialogInputUrl = /*[[@{/dialog/input}]]*/ 'noaction';
         var you = /*[[#{dialog.user.label}]]*/ 'U';
         var bot = /*[[#{dialog.bot.label}]]*/ 'comp';
+        window.speechSynthesis.speak(new SpeechSynthesisUtterance('Welcome to Analyzer'));
 
         $("#expressionText").keyup(function(event){
             if(event.keyCode == 13){
@@ -82,13 +83,16 @@
                 success: function(response) {
                     $('.dialog-expressions-history').append("<strong>" + bot + "</strong>" + " " + response + "</br>");
                     scrollTextArea();
+                    if (window.speechSynthesis) {
+                        window.speechSynthesis.speak(new SpeechSynthesisUtterance(response));
+                    }
                 }
             });
 
         });
 
         $('#stop').click(function() {
-            window.location.href =  /*[[@{/dialog/finish}]]*/ "noaction";
+            window.location.href =  /*[[@{/dialog/stop}]]*/ "noaction";
         });
 
         var scrollTextArea = function() {
