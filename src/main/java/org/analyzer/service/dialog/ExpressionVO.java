@@ -15,4 +15,15 @@ public class ExpressionVO extends ValueObject<Expression> {
     public String getContent() {
         return domainObject.getContent();
     }
+
+    public static ExpressionVO from(DialogVO dialog, String expression) {
+        Expression domainObject1 = new Expression();
+        domainObject1.setContent(expression);
+        domainObject1.setDialog(dialog.getDomainObject());
+        return new ExpressionVO(domainObject1);
+    }
+
+    public void setDialog(DialogVO dialog) {
+        domainObject.setDialog(dialog.getDomainObject());
+    }
 }

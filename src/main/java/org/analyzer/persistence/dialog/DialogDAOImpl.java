@@ -1,6 +1,8 @@
 package org.analyzer.persistence.dialog;
 
+import com.mysema.query.jpa.impl.JPAQuery;
 import org.analyzer.domain.Dialog;
+import org.analyzer.domain.QDialog;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -16,6 +18,8 @@ import java.util.List;
 @Transactional
 public class DialogDAOImpl implements DialogDAO {
 
+    private static final QDialog DIALOG = QDialog.dialog;
+
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -26,7 +30,10 @@ public class DialogDAOImpl implements DialogDAO {
 
     @Override
     public List<Dialog> findAll() {
-        return null;
+        return new JPAQuery(entityManager)
+                .from(DIALOG)
+                .fetchAll()
+                .list(DIALOG);
     }
 
     @Override

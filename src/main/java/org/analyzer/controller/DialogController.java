@@ -62,6 +62,8 @@ public class DialogController {
         }
 
         ExpressionVO response = botEngine.getResponse(expression);
+        response.setDialog(dialog);
+        dialog.addExpression(ExpressionVO.from(dialog, expression));
         dialog.addExpression(response);
         return response.getContent();
     }

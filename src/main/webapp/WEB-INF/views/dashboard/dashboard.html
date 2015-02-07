@@ -11,8 +11,8 @@
     <h1 class="text-center text-bold"><strong>Welcome to Analyzer!</strong></h1>
     <div style="padding-bottom: 100px;"></div>
 
-    <div class="text-center">
-        <div class="col-sm-12 col-md-5" sec:authorize="hasRole('STUDENT')">
+    <div class="text-center" sec:authorize="hasRole('STUDENT')">
+        <div class="col-sm-12 col-md-5">
             <div id="start" class="cool_btn1 green">
                 <h1 class="top">START DIALOG</h1>
                 <h2>b</h2>

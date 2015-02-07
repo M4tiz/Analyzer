@@ -22,7 +22,7 @@ public class Dialog extends IdentityObject {
     @OneToOne(cascade = CascadeType.ALL)
     private LearningState learningState;
 
-    @OneToMany(mappedBy = "dialog")
+    @OneToMany(mappedBy = "dialog", cascade = CascadeType.ALL)
     private List<Expression> expressions = new LinkedList<>();
 
     @ManyToOne
