@@ -1,17 +1,12 @@
 package org.analyzer.service.dialog;
 
-import org.analyzer.domain.Dialog;
 import org.analyzer.domain.DialogCategory;
 import org.analyzer.domain.DialogExpression;
-import org.analyzer.domain.LearningState;
-import org.analyzer.persistence.dialog.DialogDAO;
 import org.analyzer.persistence.dialog.DialogExpressionDAO;
-import org.analyzer.service.category.DialogCategoryVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -58,5 +53,13 @@ public class DialogExpressionServiceImpl implements DialogExpressionService {
 				.filter(x -> x.getDomainObject().getId().equals(dialogExpressionVO.getDomainObject().getAnswerID()))
 				.findFirst().get();
 
+	}
+
+	@Override
+	public List<String> getUserExpressionsByCategoryId(Long categoryId) {
+		return dialogExpressionDAO.findByCategoryIdWithoutAnswer(categoryId)
+				.stream()
+				.map(DialogExpression::getContent)
+				.collect(Collectors.toList());
 	}
 }

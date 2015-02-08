@@ -1,8 +1,8 @@
 package org.analyzer.service.dialog;
 
-import java.util.List;
-
 import org.analyzer.domain.DialogCategory;
+
+import java.util.List;
 
 /**
  * @author wrabel
@@ -14,4 +14,6 @@ public interface DialogExpressionService {
 	List<DialogExpressionVO> getUserQuestionsForCategory(
 			DialogCategory domainObject);
 	DialogExpressionVO getAnswerForExpression(DialogExpressionVO dialogExpressionVO);
+
+    List<String> getUserExpressionsByCategoryId(Long categoryId);
 }

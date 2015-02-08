@@ -71,7 +71,7 @@ body > header > .navbar {
     vertical-align: middle;
 }
 
-.dialog .dialog-content .dialog-expressions-history {
+.dialog-expressions {
     margin: 30px 0;
     background: #eee none;
     border: 1px solid #ccc;
@@ -91,6 +91,33 @@ body > header > .navbar {
 .dialog .dialog-user .pull-left {
     padding-left: 0;
     margin-bottom: 5px;
+}
+
+.dialog .dialog-user .pull-left .btn.dialog-record {
+    -webkit-animation: record 1s linear 0s infinite alternate; /* Chrome, Safari, Opera */
+    animation: record 1s linear 0s infinite alternate;
+}
+
+/* Chrome, Safari, Opera */
+@-webkit-keyframes record {
+    from {
+        border: 1px solid #ccc;
+        background-color: #fff;
+    }
+    to {
+        border: 1px solid red;
+        background-color: #f2dede;
+    }
+}
+
+/* Standard syntax */
+@keyframes record {
+    from {
+        border: 1px solid #ccc;
+    }
+    to {
+        border: 1px solid red;
+    }
 }
 
 .dialog .dialog-user .input-group .input-group-addon {

@@ -1,0 +1,32 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/html-head" />
+
+<body>
+
+<header th:include="fragments/page-header" />
+
+<div class="container">
+    <div class="col-xs-12">
+        <h1 th:utext="#{dialog.expression.title}">Dialog Expressions</h1>
+        <br/>
+
+        <h3 class="text-center" th:text="${category}">Category</h3>
+
+        <div class="dialog-expressions" style="height: 300px;">
+            <div th:each="expr : ${expressions}">
+                <span th:text="${expr}" th:remove="tag"></span>
+                <br/>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:include="fragments/page-footer" />
+
+</body>
+
+<div th:include="fragments/html-foot" />
+
+</html>

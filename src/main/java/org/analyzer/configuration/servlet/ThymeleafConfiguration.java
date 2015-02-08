@@ -25,6 +25,7 @@ import java.util.Set;
 @Configuration
 public class ThymeleafConfiguration extends ApplicationObjectSupport {
 
+
     @Bean
     public ViewResolver viewResolver(SpringTemplateEngine springTemplateEngine) {
         ThymeleafViewResolver resolver = new ThymeleafViewResolver();

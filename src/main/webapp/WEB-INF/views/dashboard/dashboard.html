@@ -8,22 +8,22 @@
 <header th:include="fragments/page-header" />
 
 <div class="container">
-    <h1 class="text-center text-bold"><strong>Welcome to Analyzer!</strong></h1>
+    <h1 class="text-center text-bold"><strong th:text="#{dashboard.welcome}">Welcome to Analyzer!</strong></h1>
     <div style="padding-bottom: 100px;"></div>
 
     <div class="text-center" sec:authorize="hasRole('STUDENT')">
         <div class="col-sm-12 col-md-5">
             <div id="start" class="cool_btn1 green">
-                <h1 class="top">START DIALOG</h1>
+                <h1 class="top" th:text="#{dashboard.action.dialog}">START DIALOG</h1>
                 <h2>b</h2>
             </div>
         </div>
         <div class="col-sm-12 col-md-2">
-            <h1 style="padding-top: 70px; padding-bottom: 70px;"><strong>OR</strong></h1>
+            <h1 style="padding-top: 70px; padding-bottom: 70px;"><strong th:text="#{dashboard.action.orlabel}">OR</strong></h1>
         </div>
         <div class="col-sm-12 col-md-5">
             <div id="browse" class="cool_btn1 teal">
-                <h1 class="small top">BROWSE <br/>DIALOG CATEGORIES</h1>
+                <h1 class="small top" th:utext="#{dashboard.action.browse}">BROWSE <br/>DIALOG CATEGORIES</h1>
                 <h2>4</h2>
             </div>
         </div>
@@ -41,8 +41,8 @@
 <div th:include="fragments/html-foot" />
 
 <script type="text/javascript" th:inline="javascript">
-    var dialogUrl = /*[[@{/category/category_select}]]*/ 'noaction';
-    var browseUrl = /*[[@{/category/browse}]]*/ 'noaction';
+    var dialogUrl = /*[[@{/category/category_select?action=dialog}]]*/ 'noaction';
+    var browseUrl = /*[[@{/category/category_select?action=browse}]]*/ 'noaction';
 
     $('#start').click(function() {
         window.location.href = dialogUrl;

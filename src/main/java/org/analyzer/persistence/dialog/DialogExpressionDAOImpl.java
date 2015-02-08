@@ -1,17 +1,13 @@
 package org.analyzer.persistence.dialog;
 
 import com.mysema.query.jpa.impl.JPAQuery;
-
-import org.analyzer.domain.Dialog;
 import org.analyzer.domain.DialogExpression;
-import org.analyzer.domain.QDialog;
 import org.analyzer.domain.QDialogExpression;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-
 import java.util.List;
 
 /**
@@ -37,6 +33,15 @@ public class DialogExpressionDAOImpl implements DialogExpressionDAO {
         return new JPAQuery(entityManager)
                 .from(DIALOG_EXPRESSION)
                 .fetchAll()
+                .list(DIALOG_EXPRESSION);
+    }
+
+    @Override
+    public List<DialogExpression> findByCategoryIdWithoutAnswer(Long categoryId) {
+        return new JPAQuery(entityManager)
+                .from(DIALOG_EXPRESSION)
+                .where(DIALOG_EXPRESSION.dialogCategory.id.eq(categoryId)
+                        .and(DIALOG_EXPRESSION.answerID.isNotNull()))
                 .list(DIALOG_EXPRESSION);
     }
 

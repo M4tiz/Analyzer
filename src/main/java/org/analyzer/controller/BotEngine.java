@@ -4,24 +4,16 @@ package org.analyzer.controller;
  * @author mateusz.rutski@sagiton.pl
  */
 
-import java.util.List;
-
-import ognl.enhance.ExpressionCompiler;
-
-import org.analyzer.domain.Dialog;
-import org.analyzer.domain.DialogCategory;
+import org.analyzer.controller.response.DialogExpressionQueryResponse;
 import org.analyzer.domain.DialogExpression;
-import org.analyzer.domain.Expression;
-import org.analyzer.persistence.dialog.DialogDAOImpl;
-import org.analyzer.persistence.dialog.DialogExpressionDAO;
-import org.analyzer.persistence.dialog.DialogExpressionDAOImpl;
 import org.analyzer.service.category.DialogCategoryService;
 import org.analyzer.service.category.DialogCategoryVO;
 import org.analyzer.service.dialog.DialogExpressionService;
 import org.analyzer.service.dialog.DialogExpressionVO;
-import org.analyzer.service.dialog.ExpressionVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * Known as 'BotController' in Sequence Diagram of 'Dialog conducting
@@ -56,7 +48,7 @@ public class BotEngine {
 		currentDialogCategory = dialogCategory;
 	}
 
-	public ExpressionVO getResponse(String userExpression) {
+	public DialogExpressionQueryResponse getResponse(String userExpression) {
 		String answer = DEFAULT_ANSWER;
 		checkInitialization();
 		if (isDialogEnded()) {
@@ -97,13 +89,7 @@ public class BotEngine {
 				}
 			}
 		}
-		return prepareExpressionVO(answer);
-	}
-
-	private ExpressionVO prepareExpressionVO(String answer) {
-		Expression expressionObject = new Expression();
-		expressionObject.setContent(answer);
-		return new ExpressionVO(expressionObject);
+		return new DialogExpressionQueryResponse(answer, isDialogEnded);
 	}
 
 	private static boolean areExpressionsEquals(String expr1, String expr2) {

@@ -24,4 +24,7 @@ public class HttpPaths {
 
     /** Dialog Category **/
     public static final String CATEGORY_SELECT = "/category/category_select";
+
+    /** Dialog Expression **/
+    public static final String DIALOG_EXPRESSION_BROWSE = "/dialogExpression/{categoryId}/browse";
 }

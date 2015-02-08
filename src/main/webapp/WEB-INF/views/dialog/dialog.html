@@ -11,10 +11,10 @@
     <div class="dialog-header row">
         <div class="col-xs-12">
             <div class="pull-right">
-                <button class="btn btn-sm btn-danger" th:value="#{dialog.stop}">Stop dialog</button>
+                <button id="stop" class="btn btn-sm btn-danger"><span th:remove="tag" th:utext="#{dialog.stop}">Stop dialog</span></button>
             </div>
-            <h1>Dialog No. <i th:remove="tag" th:text="${newDialog.id}">123</i></h1>
-            <h2>Category: <i th:remove="tag" th:text="${category}">Category1</i></h2>
+            <h1><span th:text="#{dialog.dialog.number}" th:remove="tag">Dialog No.</span> <i th:remove="tag" th:text="${newDialog.id}">123</i></h1>
+            <h2><span th:text="#{dialog.dialog.category}" th:remove="tag">Category:</span> <i th:remove="tag" th:text="${category}">Category1</i></h2>
         </div>
         <div class="col-xs-12 dialog-progress">
 
@@ -22,23 +22,24 @@
     </div>
     <div class="dialog-content row">
         <div class="text-center col-xs-12 bot-icon">
-            <img width="150" height="150" src="http://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Robot_icon.svg/200px-Robot_icon.svg.png" />
+            <!--<img width="150" height="150" src="http://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Robot_icon.svg/200px-Robot_icon.svg.png" />-->
+            <img width="150" height="150" src="../static/application/img/bot.png" th:src="@{/static/application/img/bot.png}" />
         </div>
 
-        <div class="dialog-expressions-history col-xs-12">
-
+        <div class="dialog-expressions col-xs-12">
+            <!-- Dialog expressions -->
         </div>
     </div>
     <div class="dialog-user row">
         <div class="pull-left col-xs-12">
-            <button class="btn btn-default btn-square fa">
+            <button id="microphone" class="btn btn-default btn-square fa">
                 <span class="fa-microphone"></span>
             </button>
         </div>
         <div class="input-group">
-            <input id="expressionText" type="text" class="form-control" placeholder="Say something!" th:placeholder="#{dialog.input.placeholder}" />
+            <input id="expressionText" type="text" class="form-control" placeholder="Say something!" th:placeholder="#{dialog.input.placeholder}" lang="en" />
             <div class="input-group-addon">
-                <button id="submitExpression" class="btn btn-primary" th:value="#{dialog.input.submit}">Submit</button>
+                <button id="submitExpression" class="btn btn-primary"><span th:remove="tag" th:utext="#{dialog.input.submit}">Submit</span></button>
             </div>
         </div>
     </div>
@@ -52,42 +53,181 @@
 
 <script type="text/javascript" th:inline="javascript">
     //<![CDATA[
-    var dialogInputUrl = /*[[@{/dialog/input}]]*/ 'noaction';
-    var you = /*[[#{dialog.user.label}]]*/ 'U';
-    var bot = /*[[#{dialog.bot.label}]]*/ 'comp';
 
-    $("#expressionText").keyup(function(event){
-        if(event.keyCode == 13){
-            $("#submitExpression").click();
-        }
-    });
+    $(function() {
+        var dialogInputUrl = /*[[@{/dialog/input}]]*/ 'noaction';
+        var you = /*[[#{dialog.user.label}]]*/ 'U';
+        var bot = /*[[#{dialog.bot.label}]]*/ 'comp';
+        var endQuestion = /*[[#{dialog.end.question}]]*/ 'Redirect?';
+        window.speechSynthesis.speak(new SpeechSynthesisUtterance('Welcome to Analyzer'));
 
-    $('#submitExpression').click(function() {
-
-        var $expressionText = $('#expressionText');
-        var expression = $expressionText.val();
-        $expressionText.val('');
-        $('.dialog-expressions-history').append("<strong>" + you + "</strong>" + " " + expression + "</br>");
-        scrollTextArea();
-
-        $.ajax({
-            type: 'POST',
-            url: dialogInputUrl,
-            data: {
-                expression: expression
-            },
-            success: function(response) {
-                $('.dialog-expressions-history').append("<strong>" + bot + "</strong>" + " " + response + "</br>");
-                scrollTextArea();
+        $("#expressionText").keyup(function(event){
+            if(event.keyCode == 13){
+                $("#submitExpression").click();
             }
         });
 
+        $('#submitExpression').click(function() {
+
+            var $expressionText = $('#expressionText');
+            var expression = $expressionText.val();
+            $expressionText.val('');
+            $('.dialog-expressions').append("<strong>" + you + "</strong>" + " " + expression + "</br>");
+            scrollTextArea();
+
+            $.ajax({
+                type: 'POST',
+                url: dialogInputUrl,
+                data: {
+                    expression: expression
+                },
+                success: function(response) {
+                    $('.dialog-expressions').append("<strong>" + bot + "</strong>" + " " + response.content + "</br>");
+                    scrollTextArea();
+                    if (window.speechSynthesis) {
+                        window.speechSynthesis.speak(new SpeechSynthesisUtterance(response));
+                    }
+
+                    if(response.isDialogFinished && confirm(endQuestion)) {
+                        window.location.href = /*[[@{/dashboard}]]*/ 'noaction';
+                    }
+                }
+            });
+
+        });
+
+        $('#stop').click(function() {
+            window.location.href =  /*[[@{/dialog/stop}]]*/ "noaction";
+        });
+
+        var scrollTextArea = function() {
+            var textarea = $('.dialog-expressions');
+            textarea.scrollTop(textarea[0].scrollHeight);
+        };
+
+        var initRecognitionModule = function () {
+            var recognition;
+            try {
+                recognition = new webkitSpeechRecognition();
+                $('#microphone').show();
+            } catch(e) {
+                $('#microphone').hide();
+                return;
+            }
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            recognition.lang = "en";
+
+            var interimResult = '';
+            var textArea = $('#expressionText');
+            var textAreaID = 'expressionText';
+            var isStarted = false;
+
+            $('#microphone').click(function(){
+                toggleRecognition();
+            });
+
+            var toggleRecognition = function() {
+                if (isStarted) {
+                    recognition.stop()
+                } else {
+                    textArea.focus();
+                    recognition.start();
+                }
+            };
+
+            recognition.onresult = function (event) {
+                var pos = textArea.getCursorPosition() - interimResult.length;
+                textArea.val(textArea.val().replace(interimResult, ''));
+                interimResult = '';
+                textArea.setCursorPosition(pos);
+                for (var i = event.resultIndex; i < event.results.length; ++i) {
+                    if (event.results[i].isFinal) {
+                        insertAtCaret(textAreaID, event.results[i][0].transcript);
+                    } else {
+                        isFinished = false;
+                        insertAtCaret(textAreaID, event.results[i][0].transcript + '\u200B');
+                        interimResult += event.results[i][0].transcript + '\u200B';
+                    }
+                }
+            };
+
+            recognition.onend = function() {
+                $('#microphone').removeClass('dialog-record');
+                isStarted = false;
+            };
+
+            recognition.onstart = function() {
+                isStarted = true;
+                $('#microphone').addClass('dialog-record');
+            };
+
+            var insertAtCaret = function(areaId,text) {
+                var txtarea = document.getElementById(areaId);
+                var scrollPos = txtarea.scrollTop;
+                var strPos = 0;
+                var br = ((txtarea.selectionStart || txtarea.selectionStart == '0') ?
+                        "ff" : (document.selection ? "ie" : false ) );
+                if (br == "ie") {
+                    txtarea.focus();
+                    var range = document.selection.createRange();
+                    range.moveStart ('character', -txtarea.value.length);
+                    strPos = range.text.length;
+                }
+                else if (br == "ff") strPos = txtarea.selectionStart;
+
+                var front = (txtarea.value).substring(0,strPos);
+                var back = (txtarea.value).substring(strPos,txtarea.value.length);
+                txtarea.value=front+text+back;
+                strPos = strPos + text.length;
+                if (br == "ie") {
+                    txtarea.focus();
+                    range = document.selection.createRange();
+                    range.moveStart ('character', -txtarea.value.length);
+                    range.moveStart ('character', strPos);
+                    range.moveEnd ('character', 0);
+                    range.select();
+                }
+                else if (br == "ff") {
+                    txtarea.selectionStart = strPos;
+                    txtarea.selectionEnd = strPos;
+                    txtarea.focus();
+                }
+                txtarea.scrollTop = scrollPos;
+            };
+
+            $.fn.getCursorPosition = function() {
+                var el = $(this).get(0);
+                var pos = 0;
+                if('selectionStart' in el) {
+                    pos = el.selectionStart;
+                } else if('selection' in document) {
+                    el.focus();
+                    var Sel = document.selection.createRange();
+                    var SelLength = document.selection.createRange().text.length;
+                    Sel.moveStart('character', -el.value.length);
+                    pos = Sel.text.length - SelLength;
+                }
+                return pos;
+            };
+
+            $.fn.setCursorPosition = function(pos) {
+                if ($(this).get(0).setSelectionRange) {
+                    $(this).get(0).setSelectionRange(pos, pos);
+                } else if ($(this).get(0).createTextRange) {
+                    var range = $(this).get(0).createTextRange();
+                    range.collapse(true);
+                    range.moveEnd('character', pos);
+                    range.moveStart('character', pos);
+                    range.select();
+                }
+            }
+        };
+
+        initRecognitionModule();
+
     });
 
-    var scrollTextArea = function() {
-        var textarea = $('.dialog-expressions-history');
-        textarea.scrollTop(textarea[0].scrollHeight);
-    };
     //]]>
 </script>
 

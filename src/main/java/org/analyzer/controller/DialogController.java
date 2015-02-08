@@ -2,17 +2,21 @@ package org.analyzer.controller;
 
 import org.analyzer.constants.HtmlViews;
 import org.analyzer.constants.HttpPaths;
+import org.analyzer.controller.response.DialogExpressionQueryResponse;
 import org.analyzer.service.category.DialogCategoryService;
 import org.analyzer.service.category.DialogCategoryVO;
 import org.analyzer.service.dialog.DialogService;
 import org.analyzer.service.dialog.DialogVO;
 import org.analyzer.service.dialog.ExpressionVO;
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+
+import java.io.IOException;
 
 import static org.analyzer.constants.HtmlViews.DASHBOARD;
 import static org.analyzer.constants.HtmlViews.DIALOG_VIEW;
@@ -36,6 +40,8 @@ public class DialogController {
 	@Autowired
 	private DialogService dialogService;
 
+	private ObjectMapper objectMapper = new ObjectMapper();
+
 	@ModelAttribute("newDialog")
 	public DialogVO newDialog(@PathVariable Long categoryId) {
 		DialogCategoryVO category = dialogCategoryService.findById(categoryId);
@@ -53,24 +59,19 @@ public class DialogController {
 		return DIALOG_VIEW;
 	}
 
-	@RequestMapping(value = DIALOG_INPUT, method = RequestMethod.POST)
+	@RequestMapping(value = DIALOG_INPUT, method = RequestMethod.POST, headers = "Accept=application/json")
 	@ResponseBody
-	public String queryExpression(@ModelAttribute("newDialog") DialogVO dialog, @RequestParam String expression) {
+	public String queryExpression(@ModelAttribute("newDialog") DialogVO dialog, @RequestParam String expression) throws IOException {
 
 		if (StringUtils.isBlank(expression)) {
 			throw new IllegalStateException("Expression cannot be null");
 		}
 
-		ExpressionVO response = botEngine.getResponse(expression);
-		response.setDialog(dialog);
+		DialogExpressionQueryResponse response = botEngine.getResponse(expression);
 		dialog.addExpression(ExpressionVO.from(dialog, expression));
-		dialog.addExpression(response);
+		dialog.addExpression(ExpressionVO.from(dialog, response.getContent()));
 
-		if (botEngine.isDialogEnded()) {
-			finishAndSaveDialog(dialog);
-		}
-
-		return response.getContent();
+		return objectMapper.writeValueAsString(response);
 	}
 
 	private void finishAndSaveDialog(DialogVO dialog) {

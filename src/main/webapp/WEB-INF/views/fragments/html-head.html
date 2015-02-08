@@ -1,11 +1,13 @@
 <head th:remove="tag">
     <base th:href="@{/}"/>
     <meta charset="utf-8"/>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="description" content="Very cool site for english language learning"/>
     <meta name="author" content="Mateusz Rutski &amp;&amp; Jakub Wrąbel"/>
-    <title>Analyzer - The best english language learning service worldwide</title>
+
+    <title th:text="#{html.head.title}">Analyzer - The best english language learning service worldwide</title>
 
     <!-- Bootstrap -->
     <link href="../static/libs/bootstrap/css/bootstrap.min.css"

@@ -29,6 +29,8 @@ public class DialogServiceImpl implements DialogService {
         state.setDialog(dialog);
         dialog.setLearningState(state);
 
+        dialogDAO.insert(dialog);
+
         return new DialogVO(dialog);
     }
 
