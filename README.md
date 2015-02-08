@@ -2,7 +2,7 @@
 
 ## Installation:
 
-1. Pull this shit
+1. Pull this project
 
 2. Perform mvn clean install
 
