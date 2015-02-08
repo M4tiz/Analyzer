@@ -85,7 +85,7 @@
                     $('.dialog-expressions').append("<strong>" + bot + "</strong>" + " " + response.content + "</br>");
                     scrollTextArea();
                     if (window.speechSynthesis) {
-                        window.speechSynthesis.speak(new SpeechSynthesisUtterance(response));
+                        window.speechSynthesis.speak(new SpeechSynthesisUtterance(response.content));
                     }
 
                     if(response.isDialogFinished && confirm(endQuestion)) {
