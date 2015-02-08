@@ -1,5 +1,6 @@
 package org.analyzer.configuration.root;
 
+import com.google.common.collect.Maps;
 import org.analyzer.constants.Constants;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
+import java.util.HashMap;
 
 /**
  * @author mateusz.rutski@sagiton.pl
@@ -62,6 +64,10 @@ public class MySQLDataSourceConfiguration {
     @Bean
     public JpaTransactionManager jpaTransactionManager(LocalContainerEntityManagerFactoryBean entityManagerFactory) {
         JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
+        HashMap<String, Object> properties = Maps.newHashMap();
+        properties.put("hibernate.cache.use_second_level_cache", true);
+        properties.put("hibernate.cache.use_query_cache", true);
+        jpaTransactionManager.setJpaPropertyMap(properties);
         jpaTransactionManager.setEntityManagerFactory(entityManagerFactory.getObject());
 
         return jpaTransactionManager;
