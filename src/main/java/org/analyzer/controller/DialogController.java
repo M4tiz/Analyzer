@@ -27,59 +27,68 @@ import static org.analyzer.constants.HttpPaths.DIALOG_START;
 @SessionAttributes(value = "newDialog")
 public class DialogController {
 
-    @Autowired
-    private BotEngine botEngine;
+	@Autowired
+	private BotEngine botEngine;
 
-    @Autowired
-    private DialogCategoryService dialogCategoryService;
+	@Autowired
+	private DialogCategoryService dialogCategoryService;
 
-    @Autowired
-    private DialogService dialogService;
+	@Autowired
+	private DialogService dialogService;
 
-    @ModelAttribute("newDialog")
-    public DialogVO newDialog(@PathVariable Long categoryId) {
-        DialogCategoryVO category = dialogCategoryService.findById(categoryId);
-        return dialogService.createNewDialog(category);
-    }
+	@ModelAttribute("newDialog")
+	public DialogVO newDialog(@PathVariable Long categoryId) {
+		DialogCategoryVO category = dialogCategoryService.findById(categoryId);
+		return dialogService.createNewDialog(category);
+	}
 
-    @RequestMapping(value = DIALOG_START, method = RequestMethod.GET)
-    public String startDialog(@PathVariable Long categoryId, Model model) {
+	@RequestMapping(value = DIALOG_START, method = RequestMethod.GET)
+	public String startDialog(@PathVariable Long categoryId, Model model) {
 
-        DialogCategoryVO category = dialogCategoryService.findById(categoryId);
-        botEngine.initializeBot(category);
+		DialogCategoryVO category = dialogCategoryService.findById(categoryId);
+		botEngine.initializeBot(category);
 
-        model.addAttribute("category", category.getName());
+		model.addAttribute("category", category.getName());
 
-        return DIALOG_VIEW;
-    }
+		return DIALOG_VIEW;
+	}
 
-    @RequestMapping(value = DIALOG_INPUT, method = RequestMethod.POST)
-    @ResponseBody
-    public String queryExpression(@ModelAttribute("newDialog") DialogVO dialog, @RequestParam String expression) {
+	@RequestMapping(value = DIALOG_INPUT, method = RequestMethod.POST)
+	@ResponseBody
+	public String queryExpression(@ModelAttribute("newDialog") DialogVO dialog, @RequestParam String expression) {
 
-        if (StringUtils.isBlank(expression)) {
-            throw new IllegalStateException("Expression cannot be null");
-        }
+		if (StringUtils.isBlank(expression)) {
+			throw new IllegalStateException("Expression cannot be null");
+		}
 
-        ExpressionVO response = botEngine.getResponse(expression);
-        response.setDialog(dialog);
-        dialog.addExpression(ExpressionVO.from(dialog, expression));
-        dialog.addExpression(response);
-        return response.getContent();
-    }
+		ExpressionVO response = botEngine.getResponse(expression);
+		response.setDialog(dialog);
+		dialog.addExpression(ExpressionVO.from(dialog, expression));
+		dialog.addExpression(response);
 
-    @RequestMapping(value = HttpPaths.DIALOG_CANCEL, method = RequestMethod.GET)
-    public String cancelDialog() {
-        return HtmlViews.DASHBOARD;
-    }
+		if (botEngine.isDialogEnded()) {
+			finishAndSaveDialog(dialog);
+		}
 
-    @RequestMapping(value = HttpPaths.DIALOG_FINISH, method = RequestMethod.GET)
-    public String finishDialog(@ModelAttribute("newDialog") DialogVO dialog, SessionStatus sessionStatus) {
+		return response.getContent();
+	}
 
-        dialog.finishDialog();
-        dialogService.save(dialog);
-        sessionStatus.setComplete();
+	private void finishAndSaveDialog(DialogVO dialog) {
+		dialog.finishDialog();
+		dialogService.save(dialog);
+	}
 
-        return DASHBOARD;
-    }
+	@RequestMapping(value = HttpPaths.DIALOG_CANCEL, method = RequestMethod.GET)
+	public String cancelDialog() {
+		return HtmlViews.DASHBOARD;
+	}
+
+	@RequestMapping(value = HttpPaths.DIALOG_FINISH, method = RequestMethod.GET)
+	public String finishDialog(@ModelAttribute("newDialog") DialogVO dialog, SessionStatus sessionStatus) {
+
+		finishAndSaveDialog(dialog);
+		sessionStatus.setComplete();
+
+		return DASHBOARD;
+	}
 }

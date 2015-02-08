@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
 import java.util.List;
 
 /**
@@ -36,4 +37,5 @@ public class DialogCategory extends IdentityObject {
     public void setDialogExpressions(List<DialogExpression> dialogExpressions) {
         this.dialogExpressions = dialogExpressions;
     }
+    
 }
